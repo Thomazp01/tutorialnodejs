@@ -5,14 +5,20 @@
       <th>ID</th>
       <th>Username</th>
       <th>Senha</th>
+      <th>Excluir</th>
     </tr>
   </thead>
   <tbody>
     <% let i; for(i=0; i<dados.length; i++) { %>
+      <% if (dados [i].username==req.session.username) {%>
+
+      <% } else { %>
     <tr>
+      <% } %>
       <td><%= dados[i].id %></td>
       <td><%= dados[i].username %></td>
       <td><%= dados[i].password %></td>
+      <td><a href="/deletarusu/<%= dados[i].id%>" onclick="return confirm(' Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita')"> Excluir</a></td>
     </tr>
     <% } %>
   </tbody>

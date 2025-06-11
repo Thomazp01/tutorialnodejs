@@ -213,6 +213,59 @@ app.get("/dashboard", (req, res) => {
   
   res.status(404).render('pages/erro', { titulo: "ERRO 404", req: req, msg: "404" });
 });
+const search = () => {
+    const searchbox = document.getElementById("search-item").value.toUpperCase();
+    const storeitems = document.getElementById("thead")
+    //const product = document.querySelectorAll("")
+    const pname = document.getElementById("tbody")
+    for(var i=0; i < pname.length; i++) {
+let match = product[i].getElementsByTagName("tbody")[0];
+if(match){
+    let textvalue = match.textContent || match.innerHTML
+    if(textvalue.toUpperCase().indexOf(searchbox) > -1){
+        product[i].style.display = "";
+    }else{
+        product[i].style.display = "none";
+    }
+    }
+}
+    }
+    //excluir usuarios
+app.get("/deletarusu/:id", (req, res) => {
+    if (req.session.loggedin) {
+        const idUsuario = req.params.id;
+
+        const query = "DELETE FROM users WHERE id =?";
+        db.get(query, [idUsuario], (err, row) => {
+            if (err) {
+                console.error("Erro ao deletar usuário", err.message);
+                res.send("Erro ao deletar usuário");
+
+            } else {
+                console.log(`Usuário com ID ${idUsuario} deletado`);
+                res.redirect("/dashboard")
+            }
+        })
+    }
+});
+ //excluir posts
+app.get("/deletarpost/:id", (req, res) => {
+    if (req.session.loggedin) {
+        const idPosts = req.params.id;
+
+        const query = "DELETE FROM posts WHERE id =?";
+        db.get(query, [idPosts], (err, row) => {
+            if (err) {
+                console.error("Erro ao deletar post", err.messsage);
+                res.send("Erro ao deletar post");
+
+            } else {
+                console.log(`Post com ID ${idPosts} deletado`);
+                res.redirect("/")
+            }
+        })
+    }
+});
 app.listen(PORT, () => {
     console.log(`Servidor sendo excexutado na porta ${PORT}`)
     console.log(__dirname + "\\static")
